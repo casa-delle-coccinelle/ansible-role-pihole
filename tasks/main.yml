@@ -30,6 +30,28 @@
 
 - include_tasks: config.yml
 
+- name: Include adlist config tasks
+  include_tasks: lists.yml
+    #  when: pihole_adlists is defined
+  vars:
+    list_name: "{{ pihole_adlists_filename }}"
+    list_content: "{{ pihole_adlists }}"
+  
+- name: Include blacklist config tasks
+  include_tasks: lists.yml
+    #  when: pihole_blacklist is defined
+  vars:
+    list_name: "{{ pihole_blacklist_filename }}"
+    list_content: "{{ pihole_blacklist }}"
+  
+- name: Include whitelist config tasks
+  include_tasks: lists.yml
+    #  when: pihole_whitelist is defined
+  vars:
+    list_name: "{{ pihole_whitelist_filename }}"
+    list_content: "{{ pihole_whitelist | default('') }}"
+  
+
 - include_tasks: exporter_install.yml
   when: pihole_exporter_install
 

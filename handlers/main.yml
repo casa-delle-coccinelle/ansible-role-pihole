@@ -9,3 +9,6 @@
   systemd:
     name: pihole_exporter
     state: restarted
+
+- name: Update lists
+  command: pihole -g

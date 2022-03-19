@@ -1,0 +1,32 @@
+---
+- name: debug
+  debug:
+    var: list_content
+
+- name: Check if {{ list_name }} is currently in use
+  stat:
+    path: "{{ pihole_config_path }}/migration_backup/{{ list_name }}"
+  register: pihole_current_list
+    #  changed_when: not pihole_current_list.stat.exists
+    #  notify: Update lists
+
+
+- name: Copy defined lists
+  copy:
+    content: "{{ list_content }}"
+    dest: "{{ pihole_config_path }}/{{ list_name }}"
+  register: pihole_defined_list
+  when: list_content != ""
+
+
+- name: Remove old lists configs
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ pihole_config_path }}/migration_backup/"
+    - "{{ pihole_config_path }}/gravity.db"
+  when: (not pihole_current_list.stat.exists and list_content is defined) or (pihole_current_list.stat.exists and (pihole_current_list.stat.checksum != pihole_defined_list.checksum))
+  notify: Update lists
+
+
