@@ -10,5 +10,13 @@
     name: pihole_exporter
     state: restarted
 
+- name: remove list
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ pihole_config_path }}/migration_backup/"
+    - "{{ pihole_config_path }}/gravity.db"
+
 - name: Update lists
   command: pihole -g
