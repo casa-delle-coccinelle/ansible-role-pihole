@@ -10,7 +10,7 @@
     name: pihole_exporter
     state: restarted
 
-- name: remove list
+- name: Remove list
   file:
     path: "{{ item }}"
     state: absent

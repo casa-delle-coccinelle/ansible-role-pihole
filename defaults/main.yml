@@ -21,11 +21,11 @@ pihole_lighttpd_enabled: true
 # Lists config
 pihole_config_path: /etc/pihole/
 #pihole_adlists: ''
-pihole_adlists_filename: adlists.list
+pihole_adlists_filename: "{{ pihole_config_path }}/adlists.list"
 #pihole_blacklist: ''
-pihole_blacklist_filename: blacklist.txt
+pihole_blacklist_filename: "{{ pihole_config_path }}/blacklist.txt"
 #pihole_whitelist: ''
-pihole_whitelist_filename: whitelist.txt
+pihole_whitelist_filename: "{{ pihole_config_path }}/whitelist.txt"
 
 # Pi-Hole Exporter
 pihole_exporter_install: true
