@@ -25,3 +25,19 @@ Test the role via molecule:
 pip install molecule
 molecule test
 ```
+
+## Examples
+adlist, blacklist and whitelist definition:
+```
+vars:
+  pihole_adlists: |
+    https://url1
+    https://url2
+    https://url3
+  pihole_whitelist: |
+    whitelist-exmple1.com
+    whitelist-exmple1.com
+  pihole_blacklist: |
+    blacklist-example1.com
+    blacklist-example2.com
+```

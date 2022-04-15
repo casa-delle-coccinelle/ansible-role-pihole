@@ -1,0 +1,21 @@
+---
+- name: Check if {{ list_name | basename }} is currently in use
+  stat:
+    path: "{{ pihole_config_path }}/migration_backup/{{ list_name | basename }}"
+  register: pihole_current_list
+  changed_when: pihole_current_list.stat.exists and list_content == ""
+  notify: 
+    - Remove list
+    - Update lists
+
+
+- name: Copy defined lists
+  copy:
+    content: "{{ list_content }}"
+    dest: "{{ list_name }}"
+  register: pihole_defined_list
+  when: list_content != ""
+  changed_when: not pihole_current_list.stat.exists or (pihole_current_list.stat.exists and (pihole_current_list.stat.checksum != pihole_defined_list.checksum))
+  notify:
+    - Remove list
+    - Update lists
